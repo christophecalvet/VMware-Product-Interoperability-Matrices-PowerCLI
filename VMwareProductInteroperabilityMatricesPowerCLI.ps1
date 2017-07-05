@@ -272,7 +272,7 @@ If you are wonderings if the Interopability Matrix has been updated just check t
 
 .NOTES
 Author: Christophe Calvet
-Blog: http://www.thecrazyconsultant.com/Interoperability Matrix PowerCLI
+Blog: http://www.thecrazyconsultant.com/vmware-product-interoperability-matrices-powercli
 
 .EXAMPLE
 
@@ -303,7 +303,7 @@ This function will provide you a list of all VMware Solution and Version that yo
 
 .NOTES
 Author: Christophe Calvet
-Blog: http://www.thecrazyconsultant.com/Interoperability Matrix PowerCLI
+Blog: http://www.thecrazyconsultant.com/vmware-product-interoperability-matrices-powercli
 
 .PARAMETER IncludeReleaseNotSupported
 Some releases are not supported.
@@ -349,7 +349,7 @@ By design all products will be compared with all others, it means that every com
 
 .NOTES
 Author: Christophe Calvet
-Blog: http://www.thecrazyconsultant.com/Interoperability Matrix PowerCLI
+Blog: http://www.thecrazyconsultant.com/vmware-product-interoperability-matrices-powercli
 
 .PARAMETER SolutionAndVersionTable
 Array of all VMware solution and version to be checked against each other.
