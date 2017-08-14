@@ -21,15 +21,24 @@ $CompatibilityData = $DataURL.content
 $products_for_solution_interop_JavaScriptCode = [regex]::match($CompatibilityData,'var products_for_solution_interop.*?;').value
 $products_for_solution_interop_PowerShellCode = '$' + $products_for_solution_interop_JavaScriptCode.replace('var ','').replace(':[',',@(').replace(':{',',@(').replace('{','(').replace('],',')),(').replace(']},','))),(').replace(']}};',')))').replace('null','"null"').replace('true','"true"').replace(']};','))').replace('false','"false"')
 Invoke-Expression $products_for_solution_interop_PowerShellCode
-$products_for_solution_interop
+#$products_for_solution_interop
 #Original list of product/Solution
 
 
 $product_versions_for_solution_interop_JavaScriptCode = [regex]::match($CompatibilityData,'var product_versions_for_solution_interop.*?;').value
-$product_versions_for_solution_interop_PowerShellCode = '$' +$product_versions_for_solution_interop_JavaScriptCode.replace('var ','').replace(':[',',@(').replace(':{',',@(').replace('{','(').replace('],',')),(').replace(']},','))),(').replace(']}};',')))').replace('null','"null"').replace('true','"true"').replace(']};','))').replace('false','"false"')
+
+#Update 2017_14_08 new challenge identified there is now a new information in "product_versions_for_solution_interop"
+#With the mouse over the version at the top of the table there is GA information, release and download links.
+#It damages the previous code
+
+#$product_versions_for_solution_interop_PowerShellCode = '$' +$product_versions_for_solution_interop_JavaScriptCode.replace('var ','').replace(':[',',@(').replace(':{',',@(').replace('{','(').replace('],',')),(').replace(']},','))),(').replace(']}};',')))').replace('null','"null"').replace('true','"true"').replace(']};','))').replace('false','"false"')
+
+#New code remove all references to dowbload and release, everything starting like "http *** "
+$product_versions_for_solution_interop_PowerShellCode = '$' +($product_versions_for_solution_interop_JavaScriptCode.replace('var ','') -replace('"http.*?"','null')).replace(':[',',@(').replace(':{',',@(').replace('{','(').replace('],',')),(').replace(']},','))),(').replace(']}};',')))').replace('null','"null"').replace('true','"true"').replace(']};','))').replace('false','"false"')
+
 
 Invoke-Expression $product_versions_for_solution_interop_PowerShellCode
-$product_versions_for_solution_interop
+#$product_versions_for_solution_interop
 #Original list of all product version.
 
 $solutions_interop_compatible_matrix_JaveScriptCode = [regex]::match($CompatibilityData,'var solutions_interop_compatible_matrix.*?;').value
@@ -170,9 +179,9 @@ $product_versions_for_solution_interop_SimpleArray | Select SolutionAndVersion
 #Hash is necessary for a later step to increase the speed.
 $Version_To_Solution_Hash = @{}
 	$product_versions_for_solution_interop_SimpleArray | foreach{
-	$Version_To_Solution_Hash.Add($_.VersionIndex,$_.SolutionIndex)
+		$Version_To_Solution_Hash.Add($_.VersionIndex,$_.SolutionIndex)
 	}
-}	
+
 #$Version_To_Solution_Hash | ogv
 
 
@@ -182,7 +191,7 @@ $product_versions_for_solution_interop_SimpleArray | foreach{
 $SolutionAndVersion_To_VersionIndex_Hash.Add($_.SolutionAndVersion,$_.VersionIndex)
 }
 #$SolutionAndVersion_To_VersionIndex_Hash | ogv
-
+#Error to be expected when a product has two version with same number.
 
 
 ###Third we work with the table of all product version compatible with each other.
